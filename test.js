@@ -15,7 +15,7 @@ var data = {
   }
 }
 
-var schema = {
+var objectSchema = {
   fruit:{
     citrus:{
       lemons:true,
@@ -28,10 +28,25 @@ var schema = {
   }
 }
 
-tape('test missing properties', function(t){
-  t.deepEquals(deepCheck(data, schema), [
+var arraySchema = [
+  'fruit.citrus.lemons',
+  'fruit.apples',
+  'orders.settings',
+  'orders.history'
+]
+
+tape('test object schema', function(t){
+  t.deepEquals(deepCheck(data, objectSchema), [
     'fruit.citrus.weight',
     'orders.history'
-  ], 'the missing fields are correct')
+  ], 'the missing object fields are correct')
+  t.end()
+})
+
+tape('test array schema', function(t){
+  t.deepEquals(deepCheck(data, arraySchema), [
+    'fruit.apples',
+    'orders.history'
+  ], 'the missing array fields are correct')
   t.end()
 })
